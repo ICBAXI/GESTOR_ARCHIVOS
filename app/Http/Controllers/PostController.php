@@ -29,10 +29,7 @@ class PostController extends Controller
     {
 
         Post::create($request->validated());
-
-        session()->flash('status', 'Post Created!');
-
-        return to_route('post.index');
+        return to_route('post.index')->with('status', 'Post Created!');
 
     }
 
@@ -46,8 +43,7 @@ class PostController extends Controller
 
         $post->update($request->validated());
 
-        session()->flash('status', 'Post Updated!');
-
-        return to_route('posts.show', $post);
+        return to_route('posts.show', $post)->with('status', 'Post Updated!');
+        ;
     }
 }

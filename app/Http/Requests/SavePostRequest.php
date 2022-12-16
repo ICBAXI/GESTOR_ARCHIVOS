@@ -23,11 +23,6 @@ class SavePostRequest extends FormRequest
      */
     public function rules()
     {
-        if ($this->isMethod('PATCH')) {
-            return [
-                'title' => ['min:8']
-            ];
-        }
         return [
             'title' => ['required', 'min:4'],
             'body' => ['required']
