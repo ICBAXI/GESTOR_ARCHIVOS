@@ -8,6 +8,10 @@ use App\Http\Requests\SavePostRequest;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['index', 'show']]);
+    }
     public function index()
     {
         $posts = Post::get();
@@ -43,7 +47,13 @@ class PostController extends Controller
 
         $post->update($request->validated());
 
-        return to_route('posts.show', $post)->with('status', 'Post Updated!');
+        return to_route('post.show', $post)->with('status', 'Post Updated!');
         ;
+    }
+
+    public function destroy(Post $post)
+    {
+        $post->delete();
+        return to_route('post.index')->with('status', 'Post deleted.');
     }
 }
