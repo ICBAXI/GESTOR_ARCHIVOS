@@ -1,33 +1,28 @@
 <?php
 
-use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\AuthentificatedSessionController;
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\ProjectController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'welcome')->name('home');
+Route::view('/', 'home')->name('home');
+Route::view('/about', 'about')->name('about');
+
+Route::resource('portafolio', ProjectController::class)
+    ->parameters(['portafolio' => 'project'])
+    ->names('projects');
+
+/* Route::get('/portafolio', [ProjectController::class, 'index'])->name('projects.index');
+Route::get('/portafolio/crear', [ProjectController::class, 'create'])->name('projects.create');
+Route::get('/portafolio/{project}/editar', [ProjectController::class, 'edit'])->name('projects.edit');
+Route::patch('/portafolio/{project}', [ProjectController::class, 'update'])->name('projects.update');
+Route::post('/portafolio', [ProjectController::class, 'store'])->name('projects.store');
+Route::get('/portafolio/{project}', [ProjectController::class, 'show'])->name('projects.show');
+Route::delete('/portafolio/{project}', [ProjectController::class, 'destroy'])->name('projects.destroy'); */
+
+
 
 Route::view('/contact', 'contact')->name('contact');
 
-/* Route::get('/blog', [PostController::class, 'index'])->name('post.index');
-Route::get('/blog/create', [PostController::class, 'create'])->name('posts.create');
-Route::post('/blog', [PostController::class, 'store'])->name('posts.store');
-Route::get('/blog/{post}', [PostController::class, 'show'])->name('posts.show');
-Route::get('/blog/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
-Route::patch('/blog/{post}', [PostController::class, 'update'])->name('posts.update');
-Route::delete('/blog/{post}', [PostController::class, 'destroy'])->name('posts.destroy'); */
-
-Route::resource('blog', PostController::class, [
-    'names' => 'post',
-    'parameters' => ['blog' => 'post']
-]);
-
-
-Route::view('/about', 'about')->name('about')->middleware('auth');
-
-Route::view('/login', 'auth.login')->name('login');
-Route::post('/login', [AuthentificatedSessionController::class, 'store']);
-Route::post('/logout', [AuthentificatedSessionController::class, 'destroy'])->name('logout');
-
-Route::view('/register', 'auth.register')->name('register');
-Route::post('/register', [RegisteredUserController::class, 'store']);
+Route::post('contact', [MessageController::class, 'store'])->name('messages.store');
+Auth::routes(['register' => false]);
