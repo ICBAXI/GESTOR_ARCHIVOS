@@ -1,10 +1,12 @@
-@extends('layouts.app')
-
+@extends('layout')
+@section('title', 'Crear Proyecto')
 @section('content')
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
+                    @include('partials.validation-errors')
                     <div class="card-header">{{ __('Subir Archivos') }}</div>
 
                     <div class="card-body">
@@ -15,8 +17,13 @@
                         @endif
 
                         <div class="container mt-5">
-                            <form {{-- action="{{ route('fileUpload') }}" --}} method="post" enctype="multipart/form-data">
+                            <form action="{{ route('files.store') }}" method="post" enctype="multipart/form-data">
                                 @csrf
+                                <div class="custom-file">
+                                    <input type="file" name="file" class="custom-file-input" id="chooseFile">
+                                    <label class="custom-file-label" for="chooseFile"></label>
+                                </div>
+                                @include('uploads._form', ['btnText' => 'Guardar'])
                                 @if ($message = Session::get('success'))
                                     <div class="alert alert-success">
                                         <strong>{{ $message }}</strong>
@@ -31,13 +38,6 @@
                                         </ul>
                                     </div>
                                 @endif
-                                <div class="custom-file">
-                                    <input type="file" name="file" class="custom-file-input" id="chooseFile">
-                                    <label class="custom-file-label" for="chooseFile"></label>
-                                </div>
-                                <button type="submit" name="submit" class="btn btn-primary btn-block mt-4">
-                                    Subir
-                                </button>
                             </form>
                         </div>
                     </div>
